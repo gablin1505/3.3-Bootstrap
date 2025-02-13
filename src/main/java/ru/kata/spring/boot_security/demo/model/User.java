@@ -8,6 +8,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 import javax.persistence.*;
 import java.util.Collection;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 @Entity
 @Table(name = "users")
@@ -110,5 +111,18 @@ public class User implements UserDetails {
 
     public void setRoles(Set<Role> roles) {
         this.roles = roles;
+    }
+    public String getAllUserRoles() {
+        return roles.stream()
+                .map(role -> {
+                    if (role.getName().equals("ROLE_USER")) {
+                        return "USER";
+                    } else if (role.getName().equals("ROLE_ADMIN")) {
+                        return "ADMIN";
+                    } else {
+                        return role.getName();
+                    }
+                })
+                .collect(Collectors.joining(", "));
     }
 }
