@@ -9,16 +9,19 @@
     <title>User page</title>
 </head>
 
-<body>
-<nav class="navbar navbar-dark bg-dark">
+<body><nav class="navbar navbar-dark bg-dark">
     <div class="d-flex align-items-center w-100">
-        <strong class="text-white mr-3"><span th:text="${#authentication.principal.email}"></span></strong>
+        <strong class="text-white mr-3"><span th:text="${user.getEmail()}"></span></strong>
         <p class="mb-0 text-white mr-3">with roles:</p>
-        <span th:each="role : ${#authentication.authorities}" th:text="${#strings.substring(role.authority, 5)}" class="text-white mr-3"></span>
+        <!-- Итерация по ролям пользователя -->
+        <span th:each="role : ${user.getRole()}" th:text="${#strings.substring(role.getRoleName(), 5)}" class="text-white mr-3"></span>
         <form th:action="@{/logout}" th:method="POST" class="mb-0 ml-auto">
             <input type="submit" value="Logout" class="btn btn-link text-white p-0">
         </form>
     </div>
+</nav>
+
+</div>
 </nav>
 <div class="container-fluid">
     <div class="row">
@@ -39,7 +42,7 @@
                         <thead>
                         <tr>
                             <th scope="col">ID</th>
-                            <th scope="col">Name</th>
+                            <th scope="col">FirstName</th>
                             <th scope="col">LastName</th>
                             <th scope="col">Email</th>
                             <th scope="col">Age</th>
@@ -54,8 +57,7 @@
                             <td th:text="${user.getAge()}">Age</td>
                             <td th:text="${user.getEmail()}">Email</td>
                             <td>
-                            <span th:each="authorities : ${user.getAuthorities()}"
-                                  th:text="${#strings.substring(authorities, 5).replace(']','')} + ' '">Role</span>
+                                <span th:each="role : ${user.getRole()}" th:text="${#strings.substring(role.getRoleName(), 5)}" class="text-black-50 mr-3">Role</span>
                             </td>
                         </tr>
                         </tbody>

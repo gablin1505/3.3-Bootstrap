@@ -9,7 +9,6 @@ import javax.persistence.*;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotEmpty;
-import javax.validation.constraints.Size;
 import java.util.Collection;
 import java.util.HashSet;
 import java.util.Objects;
@@ -22,25 +21,23 @@ public class User implements UserDetails {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    @Column(name = "name")
+    //    @Column(name = "name")
     @NotEmpty(message = "Name should not be empty")
     private String name;
-    @Column(name = "last_name")
+
     private String lastname;
-    @Column(name = "age")
+
     @Min(value = 0, message = "Age should be greater than 0")
     private Long age;
-    @Column(name = "email", unique = true)
+
     @Email
     @NotEmpty(message = "Email should not be empty")
     private String email;
-    @Column(name = "password")
+    //
     private String password;
 
 
-    @ManyToMany(
-            cascade = CascadeType.MERGE,
-            fetch = FetchType.LAZY)
+    @ManyToMany(cascade = CascadeType.MERGE, fetch = FetchType.LAZY)
     @JoinTable(
             name = "users_roles",
             joinColumns = @JoinColumn(name = "user_id"),
